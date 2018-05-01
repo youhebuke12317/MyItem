@@ -31,6 +31,7 @@
 
 #include "rbtree.h"
 
+// 左旋
 static void __rb_rotate_left(struct rb_node *node, struct rb_root *root)
 {
 	struct rb_node *right = node->rb_right;
@@ -54,6 +55,7 @@ static void __rb_rotate_left(struct rb_node *node, struct rb_root *root)
 	rb_set_parent(node, right);
 }
 
+// 右旋
 static void __rb_rotate_right(struct rb_node *node, struct rb_root *root)
 {
 	struct rb_node *left = node->rb_left;
@@ -77,6 +79,7 @@ static void __rb_rotate_right(struct rb_node *node, struct rb_root *root)
 	rb_set_parent(node, left);
 }
 
+// 插入
 void rb_insert_color(struct rb_node *node, struct rb_root *root)
 {
 	struct rb_node *parent, *gparent;
@@ -142,6 +145,7 @@ void rb_insert_color(struct rb_node *node, struct rb_root *root)
 	rb_set_black(root->rb_node);
 }
 
+// 删除
 static void __rb_erase_color(struct rb_node *node, struct rb_node *parent,
 		struct rb_root *root)
 {

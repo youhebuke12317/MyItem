@@ -107,27 +107,46 @@
 //#include <linux/kernel.h>
 //#include <linux/stddef.h>
 
-struct rb_node {
-	 unsigned long  rb_parent_color;
 #define    RB_RED        0
 #define    RB_BLACK    	 1
+
+// 内核中红黑树的使用和链表(list)有些类似，是将红黑树的节点放入自定义的数据结构中来使用的。
+
+/*
+ * GCC支持很多属性，用来说明声明变量或函数的特殊性质
+ *		__attribute__是关键字
+ *		aligned指定了变量的对齐方式。
+ * __attribute__((aligned(sizeof(long))))也就是要求对象要以long的长度对齐
+ *
+ * 其实 struct rb_node 结构中还包含了一个指向父结点的指针，那就是 __rb_parent_color 成员,
+ * 它是 unsigned long 类型，因为在所有系统中，指针的长度总是和 long 型的长度相同，虽然C语
+ * 言本身不要求这点，但事实确实如此。int 的长度就不一定了，在32位系统中int型也是32位，
+ * 但在64位系统中，int型还是32位。
+ *
+ * 结点的颜色也包含在 __rb_parent_color 中，因为颜色只有黑或红，所以用1位就可以保存这个信
+ * 息，那就是这个成员的最后一位。因为 struct rb_node 结构一定是按4或8对齐的，所以最后两位
+ * 一定是0，所以用最后一位保存这个信息不会破坏指针的信息。红色用0表示，黑色用1表示：
+ * */
+struct rb_node {
+	 unsigned long  rb_parent_color;
 	 struct rb_node *rb_right;
 	 struct rb_node *rb_left;
- } /*  __attribute__((aligned(sizeof(long))))*/;
+ } __attribute__((aligned(sizeof(long))));
 /* The alignment might seem pointless, but allegedly CRIS needs it */
 
-struct rb_root
-{
+// struct rb_root只是struct rb_node*的一个包装，这样做的好处是看起来不用传递二级指针了
+struct rb_root {
 	struct rb_node *rb_node;
 };
 
 
+// 为了获得指向父结点的指针，只需要把 __rb_parent_color 成员的最后两位还原成0即可
 #define rb_parent(r)   	((struct rb_node *)((r)->rb_parent_color & ~3))
 #define rb_color(r)   	((r)->rb_parent_color & 1)
 #define rb_is_red(r)   	(!rb_color(r))
 #define rb_is_black(r) 	rb_color(r)
 #define rb_set_red(r)  	do { (r)->rb_parent_color &= ~1; } while (0)
-#define rb_set_black(r) do { (r)->rb_parent_color |= 1; } while (0)
+#define rb_set_black(r) do { (r)->rb_parent_color |=  1; } while (0)
 
 static inline void rb_set_parent(struct rb_node *rb, struct rb_node *p)
 {
@@ -146,11 +165,11 @@ static inline void rb_set_color(struct rb_node *rb, int color)
 		(type *)( (char *)__mptr - offsetof(type,member) );})
 
 #define RB_ROOT    								(struct rb_root) { NULL, }
-#define    rb_entry(ptr, type, member) 			container_of(ptr, type, member)
+#define rb_entry(ptr, type, member) 			container_of(ptr, type, member)
 
-#define RB_EMPTY_ROOT(root)    ((root)->rb_node == NULL)
-#define RB_EMPTY_NODE(node)    (rb_parent(node) == node)
-#define RB_CLEAR_NODE(node)    (rb_set_parent(node, node))
+#define RB_EMPTY_ROOT(root)						((root)->rb_node == NULL)
+#define RB_EMPTY_NODE(node)						(rb_parent(node) == node)
+#define RB_CLEAR_NODE(node)						(rb_set_parent(node, node))
 
 static inline void rb_init_node(struct rb_node *rb)
 {

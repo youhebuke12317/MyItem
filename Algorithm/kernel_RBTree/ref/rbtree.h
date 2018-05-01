@@ -32,6 +32,21 @@
 #include <linux/kernel.h>
 #include <linux/stddef.h>
 
+/*
+ * GCC支持很多属性，用来说明声明变量或函数的特殊性质
+ *		__attribute__是关键字
+ *		aligned指定了变量的对齐方式。
+ * __attribute__((aligned(sizeof(long))))也就是要求对象要以long的长度对齐
+ *
+ * 其实 struct rb_node 结构中还包含了一个指向父结点的指针，那就是 __rb_parent_color 成员,
+ * 它是 unsigned long 类型，因为在所有系统中，指针的长度总是和 long 型的长度相同，虽然C语
+ * 言本身不要求这点，但事实确实如此。int 的长度就不一定了，在32位系统中int型也是32位，
+ * 但在64位系统中，int型还是32位。
+ *
+ * 结点的颜色也包含在 __rb_parent_color 中，因为颜色只有黑或红，所以用1位就可以保存这个信
+ * 息，那就是这个成员的最后一位。因为 struct rb_node 结构一定是按4或8对齐的，所以最后两位
+ * 一定是0，所以用最后一位保存这个信息不会破坏指针的信息。红色用0表示，黑色用1表示：
+ * */
 struct rb_node {
 	unsigned long  __rb_parent_color;
 	struct rb_node *rb_right;
@@ -43,18 +58,18 @@ struct rb_root {
 	struct rb_node *rb_node;
 };
 
+// 为了获得指向父结点的指针，只需要把 __rb_parent_color 成员的最后两位还原成0即可
+#define rb_parent(r)					((struct rb_node *)((r)->__rb_parent_color & ~3))
 
-#define rb_parent(r)   ((struct rb_node *)((r)->__rb_parent_color & ~3))
+#define RB_ROOT							(struct rb_root) { NULL, }
+#define	rb_entry(ptr, type, member)		container_of(ptr, type, member)
 
-#define RB_ROOT	(struct rb_root) { NULL, }
-#define	rb_entry(ptr, type, member) container_of(ptr, type, member)
-
-#define RB_EMPTY_ROOT(root)  ((root)->rb_node == NULL)
+#define RB_EMPTY_ROOT(root)				((root)->rb_node == NULL)
 
 /* 'empty' nodes are nodes that are known not to be inserted in an rbree */
-#define RB_EMPTY_NODE(node)  \
+#define RB_EMPTY_NODE(node)													\
 	((node)->__rb_parent_color == (unsigned long)(node))
-#define RB_CLEAR_NODE(node)  \
+#define RB_CLEAR_NODE(node)													\
 	((node)->__rb_parent_color = (unsigned long)(node))
 
 
@@ -85,9 +100,9 @@ static inline void rb_link_node(struct rb_node * node, struct rb_node * parent,
 	*rb_link = node;
 }
 
-#define rb_entry_safe(ptr, type, member) \
-	({ typeof(ptr) ____ptr = (ptr); \
-	   ____ptr ? rb_entry(____ptr, type, member) : NULL; \
+#define rb_entry_safe(ptr, type, member)									\
+	({ typeof(ptr) ____ptr = (ptr);											\
+	   ____ptr ? rb_entry(____ptr, type, member) : NULL;					\
 	})
 
 /**
@@ -99,10 +114,10 @@ static inline void rb_link_node(struct rb_node * node, struct rb_node * parent,
  * @root:	'rb_root *' of the rbtree.
  * @field:	the name of the rb_node field within 'type'.
  */
-#define rbtree_postorder_for_each_entry_safe(pos, n, root, field) \
-	for (pos = rb_entry_safe(rb_first_postorder(root), typeof(*pos), field); \
-	     pos && ({ n = rb_entry_safe(rb_next_postorder(&pos->field), \
-			typeof(*pos), field); 1; }); \
+#define rbtree_postorder_for_each_entry_safe(pos, n, root, field)				\
+	for (pos = rb_entry_safe(rb_first_postorder(root), typeof(*pos), field);	\
+	     pos && ({ n = rb_entry_safe(rb_next_postorder(&pos->field),			\
+			typeof(*pos), field); 1; });										\
 	     pos = n)
 
 #endif	/* _LINUX_RBTREE_H */

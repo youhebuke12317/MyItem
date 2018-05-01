@@ -84,16 +84,18 @@ __rb_insert(struct rb_node *node, struct rb_root *root,
 		 * want a red root or two consecutive red nodes.
 		 */
 		if (!parent) {
-			rb_set_parent_color(node, NULL, RB_BLACK);
+			rb_set_parent_color(node, NULL, RB_BLACK);		// 当前节点是根节点
 			break;
-		} else if (rb_is_black(parent))
+		} else if (rb_is_black(parent))						// 当前节点父节点是黑色
 			break;
+
+		/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 以下操作都基于父节点是红色 */
 
 		gparent = rb_red_parent(parent);
 
 		tmp = gparent->rb_right;
 		if (parent != tmp) {	/* parent == gparent->rb_left */
-			if (tmp && rb_is_red(tmp)) {
+			if (tmp && rb_is_red(tmp)) {						// 当前节点的父亲节点红色 叔叔节点非空并且是红色
 				/*
 				 * Case 1 - color flips
 				 *
@@ -107,16 +109,18 @@ __rb_insert(struct rb_node *node, struct rb_root *root,
 				 * 4) does not allow this, we need to recurse
 				 * at g.
 				 */
-				rb_set_parent_color(tmp, gparent, RB_BLACK);
-				rb_set_parent_color(parent, gparent, RB_BLACK);
-				node = gparent;
-				parent = rb_parent(node);
-				rb_set_parent_color(node, parent, RB_RED);
+				rb_set_parent_color(tmp, gparent, RB_BLACK);	 // 将叔叔节点设为黑色
+				rb_set_parent_color(parent, gparent, RB_BLACK);	 // 将父亲节点设为黑色
+				node = gparent;									 // 将祖父节点设为当前节点
+				parent = rb_parent(node);						 // 当前节点有所改变 -> 父亲节点也需要改变
+				rb_set_parent_color(node, parent, RB_RED);		 // 然后将祖父节点，即祖父节点设为红色
 				continue;
 			}
 
+			/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 以下操作都基于叔叔节点是黑色 */
+
 			tmp = parent->rb_right;
-			if (node == tmp) {
+			if (node == tmp) {									 // 当前节点的父亲节点红色 叔叔节点黑色 并且当前节点是父亲节点的右孩子
 				/*
 				 * Case 2 - left rotate at parent
 				 *
@@ -129,10 +133,10 @@ __rb_insert(struct rb_node *node, struct rb_root *root,
 				 * This still leaves us in violation of 4), the
 				 * continuation into Case 3 will fix that.
 				 */
-				parent->rb_right = tmp = node->rb_left;
-				node->rb_left = parent;
-				if (tmp)
-					rb_set_parent_color(tmp, parent,
+				parent->rb_right = tmp = node->rb_left;			// 左旋 ：将 p->right 与 tmp 指向 n->left
+				node->rb_left = parent;							// 左旋 ：将 n->left         指向 p
+				if (tmp)										// 左旋 ：tmp (p->right) 非空 
+					rb_set_parent_color(tmp, parent,			// 左旋 ：将 tmp (p->right)->parent 指向 p 
 							    RB_BLACK);
 				rb_set_parent_color(parent, node, RB_RED);
 				augment_rotate(parent, node);
