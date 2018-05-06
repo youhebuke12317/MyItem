@@ -40,6 +40,7 @@ void HeapSort(SqList *L);
 
 void MergeSort(SqList *L);
 
+int Offer_Partition(int *data, int length, int start, int end);
 #endif
 
 

@@ -14,5 +14,14 @@
 
 int main()
 {
+	int ret;
+	int data[] = {40, 20, 30, 10, 50, 70};
+	int length = sizeof(data) / sizeof(*data);
+	printf("length = %d\n", length);
+
+	ret = Offer_Partition(data, length, 0, 5);
+
+	printf("ret = %d\n", ret);
+	
 	return 0;
 }

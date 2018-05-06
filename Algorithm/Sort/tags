@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BubbleSort	BubbleSort.c	/^void BubbleSort(SqList *L) $/;"	f
+BubbleSort_0	BubbleSort.c	/^void BubbleSort_0(SqList *L)$/;"	f
+BubbleSort_2	BubbleSort.c	/^void BubbleSort_2(SqList *L)$/;"	f
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -g $/;"	m
+HeapAdjust	HeapSort.c	/^static void HeapAdjust(SqList *L, int s, int m)$/;"	f	file:
+HeapSort	HeapSort.c	/^void HeapSort(SqList *L)$/;"	f
+InsertSort	InsertSort.c	/^void InsertSort(SqList *L)$/;"	f
+LFLAGS	Makefile	/^LFLAGS = $/;"	m
+MAXSIZE	Common.h	/^#define MAXSIZE	/;"	d
+MSort	MergeSort.c	/^static void MSort(int *SR, int *TR1, int s, int t)$/;"	f	file:
+MYFLAGS	Makefile	/^MYFLAGS = $/;"	m
+Merge	MergeSort.c	/^static void Merge(int *SR, int *TR, int start, int mid, int end)$/;"	f	file:
+MergePass	MergeSort.c	/^static void MergePass(int *SR, int *TR, int s, int n)$/;"	f	file:
+MergeSort	MergeSort.c	/^void MergeSort(SqList *L)$/;"	f
+MergeSort2	MergeSort.c	/^void MergeSort2(SqList *L)$/;"	f
+MySwap	offer_QuitSort.c	/^void MySwap(int *num1, int *num2)$/;"	f
+OBJ	Makefile	/^OBJ = .$/;"	m
+OBJS	Makefile	/^OBJS = $(patsubst $(SRC)\/%.c, $(OBJ)\/%.o, $(SOUCE_FILES))$/;"	m
+Offer_Partition	offer_QuitSort.c	/^int Offer_Partition(int *data, int length, int start, int end)$/;"	f
+Partition	QuitSort.c	/^static int Partition(SqList *L, int low, int high)$/;"	f	file:
+QSort	QuitSort.c	/^static void QSort(SqList *L, int low, int high)$/;"	f	file:
+QuitSort	QuitSort.c	/^void QuitSort(SqList *L)$/;"	f
+RandomInRange	offer_QuitSort.c	/^int RandomInRange(int min, int max)$/;"	f
+SORT_FALSE	BubbleSort.c	/^#define  SORT_FALSE	/;"	d	file:
+SORT_TRUE	BubbleSort.c	/^#define  SORT_TRUE	/;"	d	file:
+SOUCE_FILES	Makefile	/^SOUCE_FILES = $(wildcard $(SRC)\/*.c)$/;"	m
+SRC	Makefile	/^SRC = .$/;"	m
+SelectSort	SelectSort.c	/^void SelectSort(SqList *L)$/;"	f
+ShellSort	ShellSort.c	/^void ShellSort(SqList *L)$/;"	f
+SqList	Common.h	/^}SqList;$/;"	t	typeref:struct:__anon1
+Swap	Common.h	/^#define Swap(/;"	d
+TARGET	Makefile	/^TARGET = app$/;"	m
+WORK_PATH	Makefile	/^WORK_PATH=.\/$/;"	m
+__COMMON_H__	Common.h	/^#define __COMMON_H__$/;"	d
+length	Common.h	/^	int 	length;$/;"	m	struct:__anon1
+main	test.c	/^int main()$/;"	f
+r	Common.h	/^	int 	r[MAXSIZE + 1];			\/\/ r[0] 用作哨兵或临时变量$/;"	m	struct:__anon1
