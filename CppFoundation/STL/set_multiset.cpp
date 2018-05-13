@@ -19,7 +19,7 @@ using namespace std;
  *
  * set<int>					set1;		// 默认是从小到大排序
  * set<int, less<int>>		set2;
- * set<int, greater<int>>	set3;		// 从下到大排序
+ * set<int, greater<int>>	set3;		// 从大到小排序
  *
  * 对于复杂的数据类型 该怎么排序（比较）？？？
  *	
