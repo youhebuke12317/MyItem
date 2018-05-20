@@ -17,7 +17,9 @@ public:
     return "Instrument";
   }
   // Assume this will modify the object:
-  virtual void adjust(int) {}
+  virtual void adjust(int) {
+	//  cout << "Instrument::adjust" << endl;
+  }
 };
 
 class Wind : public Instrument {
@@ -26,7 +28,9 @@ public:
     cout << "Wind::play" << endl;
   }
   char* what() const { return "Wind"; }
-  void adjust(int) {}
+  void adjust(int) {
+	  cout << "Wind::adjust" << endl;
+  }
 };
 
 class Percussion : public Instrument {
@@ -72,7 +76,7 @@ void tune(Instrument& i) {
 // New function:
 void f(Instrument& i) { i.adjust(1); }
 
-// Upcasting during array initialization:
+// Upcasting during array initialization:qsort:
 Instrument* A[] = {
   new Wind,
   new Percussion,
@@ -86,10 +90,10 @@ int main() {
   Stringed violin;
   Brass flugelhorn;
   Woodwind recorder;
-  tune(flute);
-  tune(drum);
-  tune(violin);
-  tune(flugelhorn);
-  tune(recorder);
-  f(flugelhorn);
+  tune(flute);			// Wind::play
+  tune(drum);			// Percussion::play
+  tune(violin);			// Stringed::play
+  tune(flugelhorn);		// Brass::play
+  tune(recorder);		// Woodwind::play
+  f(flugelhorn);		// Wind::adjust			/* Brass类没有重定义或者重写adjust成员函数 这时候会调用继承层次中最近的定义 */
 } ///:~

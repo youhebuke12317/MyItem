@@ -29,12 +29,12 @@ public:
 };
 
 int main() {
-  cout << "int: " << sizeof(int) << endl;
+  cout << "int: " << sizeof(int) << endl;		// int: 4
   cout << "NoVirtual: "
-       << sizeof(NoVirtual) << endl;
-  cout << "void* : " << sizeof(void*) << endl;
+       << sizeof(NoVirtual) << endl;			// NoVirtual: 4
+  cout << "void* : " << sizeof(void*) << endl;	// void* : 8
   cout << "OneVirtual: "
-       << sizeof(OneVirtual) << endl;
+       << sizeof(OneVirtual) << endl;			// OneVirtual: 16
   cout << "TwoVirtuals: "
-       << sizeof(TwoVirtuals) << endl;
+       << sizeof(TwoVirtuals) << endl;			// TwoVirtuals: 16
 } ///:~

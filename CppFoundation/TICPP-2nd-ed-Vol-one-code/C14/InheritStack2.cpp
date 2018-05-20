@@ -11,6 +11,8 @@
 #include <string>
 using namespace std;
 
+// 组合与继承的选择    是否需要从新类向上类型转换
+
 class StringStack {
   Stack stack; // Embed instead of inherit
 public:

@@ -11,17 +11,23 @@
 #include <string>
 using namespace std;
 
+// 组合与继承的选择    是否需要从新类向上类型转换
+
 class StringStack : public Stack {
 public:
+
   void push(string* str) {
     Stack::push(str);
   }
+  
   string* peek() const {
     return (string*)Stack::peek();
   }
+  
   string* pop() {
     return (string*)Stack::pop();
   }
+  
   ~StringStack() {
     string* top = pop();
     while(top) {
