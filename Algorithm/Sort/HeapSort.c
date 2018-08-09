@@ -59,7 +59,7 @@ static void HeapAdjust(SqList *L, int s, int m)
 
 	temp = L->r[s];
 
-	for(j = 2*s; j <=m; j *= 2) {						/* 沿关键字较大的孩子节点向下筛选, j 为 s 的左孩子, j+1 是 s 的右孩子 */
+	for(j = s << 1; j <= m; j = j << 1) {				/* 沿关键字较大的孩子节点向下筛选, j 为 s 的左孩子, j+1 是 s 的右孩子 */
 
 		// 如果 j 有右兄弟 即 s 有右孩子 并且 右孩子比左孩子大 j 为 s 孩子中较大的下标
 		if (j < m && L->r[j] < L->r[j + 1])	++j;		/* j 为关键字中较大的记录的下标 */
