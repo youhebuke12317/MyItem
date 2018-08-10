@@ -1,0 +1,56 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AC	AC.h	/^typedef struct AC {$/;"	s
+AC	AC.h	/^} AC;$/;"	t	typeref:struct:AC
+AC_AddWord	AC.c	/^int AC_AddWord(AC *ac, char *word, int len)$/;"	f
+AC_Build	AC.c	/^int AC_Build(AC *ac)$/;"	f
+AC_Build_Fail	AC.c	/^int AC_Build_Fail(AC *ac)$/;"	f
+AC_Free	AC.c	/^void AC_Free(AC *ac)$/;"	f
+AC_H	AC.h	16;"	d
+AC_MAX_CHAR	AC.h	19;"	d
+AC_STREAM	AC.h	/^typedef struct AC_STREAM {$/;"	s
+AC_STREAM	AC.h	/^} AC_STREAM;$/;"	t	typeref:struct:AC_STREAM
+AC_Search	AC.c	/^int AC_Search(AC         *ac,$/;"	f
+AC_WORD	AC.h	/^typedef struct AC_WORD {$/;"	s
+AC_WORD	AC.h	/^} AC_WORD;$/;"	t	typeref:struct:AC_WORD
+FREE	AC.c	37;"	d	file:
+MALLOC	AC.c	35;"	d	file:
+N	AC.h	/^    int      N;                    \/* 单词缓冲的长度 *\/$/;"	m	struct:AC
+NODE	AC.c	/^typedef struct NODE {$/;"	s	file:
+NODE	AC.c	/^} NODE;$/;"	t	typeref:struct:NODE	file:
+NULL	SList.h	27;"	d
+QUEUE_Deq	AC.c	/^int QUEUE_Deq(SLIST *queue, int *f)$/;"	f
+QUEUE_Enq	AC.c	/^int QUEUE_Enq(SLIST *queue, int v, int f)$/;"	f
+RALLOC	AC.c	36;"	d	file:
+SLIST	SList.h	/^typedef struct SLIST {$/;"	s
+SLIST	SList.h	/^} SLIST;$/;"	t	typeref:struct:SLIST
+SLIST_Attach	SList.h	/^void SLIST_Attach(SLIST *list, SLIST_LINK *item, void *data)$/;"	f
+SLIST_Free	SList.h	/^void SLIST_Free(SLIST *list, void (*free)(void *p))$/;"	f
+SLIST_H	SList.h	24;"	d
+SLIST_Init	SList.h	/^void SLIST_Init(SLIST *list, unsigned long seek)$/;"	f
+SLIST_LINK	SList.h	/^typedef struct SLIST_LINK {$/;"	s
+SLIST_LINK	SList.h	/^} SLIST_LINK;$/;"	t	typeref:struct:SLIST_LINK
+SLIST_LOCATION	SList.h	40;"	d
+SLIST_Location	SList.h	/^void *SLIST_Location(SLIST *list, SLIST_LINK *item)$/;"	f
+SLIST_OFFSET_OF	SList.h	31;"	d
+SLIST_Pop	SList.h	/^void  SLIST_Pop(SLIST *list)$/;"	f
+count	AC.h	/^    int      count;                \/* 单词个数 *\/$/;"	m	struct:AC
+f	AC.c	/^    int        f;               \/* 失败指针 *\/$/;"	m	struct:NODE	file:
+head	SList.h	/^    SLIST_LINK   *head;$/;"	m	struct:SLIST
+item	AC.c	/^    SLIST_LINK item;$/;"	m	struct:NODE	file:
+k	AC.h	/^    int     k;                  \/* 保存当前节点 *\/$/;"	m	struct:AC_STREAM
+len	SList.h	/^    unsigned long len;$/;"	m	struct:SLIST
+main	AC.c	/^int main(void)$/;"	f
+next	SList.h	/^    struct SLIST_LINK *next;$/;"	m	struct:SLIST_LINK	typeref:struct:SLIST_LINK::SLIST_LINK
+seek	SList.h	/^    unsigned long seek;$/;"	m	struct:SLIST
+size	AC.h	/^    int   size;$/;"	m	struct:AC_WORD
+tail	SList.h	/^    SLIST_LINK   *tail;$/;"	m	struct:SLIST
+total	AC.h	/^    int      total;                \/* 所有单词总长度，也是trie树分配节点个数 *\/$/;"	m	struct:AC
+trie	AC.h	/^    int      (*trie)[AC_MAX_CHAR + 1]; \/* trie树指针(此处使用数组表示),$/;"	m	struct:AC
+v	AC.c	/^    int        v;               \/* 当前节点 *\/$/;"	m	struct:NODE	file:
+word	AC.h	/^    char *word;$/;"	m	struct:AC_WORD
+words	AC.h	/^    AC_WORD *words;$/;"	m	struct:AC
