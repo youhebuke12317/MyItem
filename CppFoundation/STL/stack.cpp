@@ -10,6 +10,7 @@
 using namespace std;
 #include <stack>
 
+
 void main51()
 {
 	stack<int>	s;
