@@ -26,17 +26,25 @@ map[6] = "teacher07";
 
 
 # 遍历 -- 迭代器
+```
 for (map<int, string>::iterator: it = map.begin(); it != it.end(); it++){
  	it->first;
  	it->second;
 }
+```
 
-# 判空	map.empty();
+# 判空	
+```
+map.empty();
+```
 
 # 删除
+```
 map.erase(iterator);
+```
 
 # 查找	
+```
 map<int, string>::iterator  it = map.find(100);
 if (it == map.end()) {
  	cont << 查找不存在
@@ -51,5 +59,6 @@ pair< map<int, string>::iterator, map<int, string>::iterator > mypair = map.equa
 if (mypair.first == map.end()) {
  	cout << "第一个迭代器 >= elem 的位置不存在"
 }
+```
 
 
