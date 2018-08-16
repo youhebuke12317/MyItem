@@ -10,13 +10,9 @@
 #include <iostream>
 #include <stack>
 #include <cstdio> 
+#include "BinTree.h"
 using namespace std;
 
-struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-};
 
 
 // 递归方式的前序遍历
