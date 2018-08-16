@@ -12,7 +12,7 @@
 
 #include "queue.h"
 
-
+// 需要保证QUEUE_SIZE是2的次幂
 #define QUEUE_MASK											\
 	(QUEUE_SIZE - 1)
 
@@ -34,12 +34,16 @@
 #define QUEUE_ITEM_NUM(queue)								\
 	((queue)->tail>=(queue)->head)? QUEUE_INTERVAL(queue):(QUEUE_SIZE+QUEUE_INTERVAL(queue))  
 
+#define INC_HEAD_UNLOCK(queue)										\
+	(queue) -> head = ((queue) -> head + 1) & QUEUE_MASK			\
+
+#define INC_TAIL_UNLOCK(queue)										\
+	(queue) -> tail = ((queue) -> tail + 1) & QUEUE_MASK
 
 typedef struct LOG_QUEUE {
 	int				head;
 	int				tail;
 	void			*data[QUEUE_SIZE];
-	int				count;		/* 循环队列中元素个数 */
 	pthread_mutex_t	mutex;		/* 队列锁 */
 }LOG_QUEUE; 
 
@@ -74,7 +78,6 @@ int init_log_queue(LOG_QUEUE *queue, int size)
 	
 	queue -> head  = 0;
 	queue -> tail  = 0;
-	queue -> count = 0;
 	
 	int ret = pthread_mutex_init(&(queue -> mutex), NULL);
 	if (ret != 0) {
@@ -182,8 +185,6 @@ static void inc_write_ptr(LOG_QUEUE *queue)
 
 	INC_TAIL(queue);
 
-	(queue -> count)++;	
-
 	return ;
 }
 
@@ -195,8 +196,6 @@ static void inc_read_ptr(LOG_QUEUE *queue)
 	if (queue == NULL) 	return;
 
 	INC_HEAD(queue);
-
-	(queue -> count)--;	
 
 	return ;
 }

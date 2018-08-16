@@ -13,16 +13,13 @@
 #include <cstdlib>
 using namespace std;
 
-#define THREE_MIN(x, y, z) 				\
-	std::min((std::min(x, y)), y)
-
 /* 有问题 -- 死循环了 */
 void quick_sort1(int *num, int l, int r, int k) {
 	if (r - l < 1) return;
 	int x = l, y = r, z = THREE_MIN(num[l], num[r], num[(l + r) >> 1]);
 	do {
-		while (x < z) ++x;
-		while (y > z) --y;
+		while (num[x] < z) ++x;
+		while (num[y] > z) --y;
 		if (x <= y) {
 			std::swap(num[x], num[y]);
 			++x, --y;
@@ -96,7 +93,7 @@ int heap_sort(int *num, int n) {
 void quick_sort(int *num, int l, int r, int k) {
 	k || heap_sort(num + l, r - l + 1);
 	while (r - l >= 15) {
-		int x = l, y = r, z = THREE_MIN(num[l], num[r], num[(l + r) >> 1]);
+		int x = l, y = r, z = min(max(num[l], num[r]), num[(l + r) >> 1]);
 		do {
 			while (num[x] < z) ++x;
 			while (num[y] > z) --y;
