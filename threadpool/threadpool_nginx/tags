@@ -1,0 +1,57 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CB_FUN	threadpool_nginx.h	/^typedef void	(*CB_FUN)(void *);$/;"	t
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -g -shared -fPIC $/;"	m
+INCPATH	Makefile	/^INCPATH = \/usr\/local\/include$/;"	m
+LFLAGS	Makefile	/^LFLAGS = -lpthread$/;"	m
+LIBPATH	Makefile	/^LIBPATH = \/usr\/local\/youhebuke$/;"	m
+MAX_TASK_SIZE	threadpool_nginx.c	13;"	d	file:
+MAX_TASK_SIZE	threadpool_tool.h	13;"	d
+OBJS	Makefile	/^OBJS = $(patsubst %.c, %.o, $(SOUCE_FILES))$/;"	m
+SOUCE_FILES	Makefile	/^SOUCE_FILES = $(wildcard *.c)$/;"	m
+TARGET	Makefile	/^TARGET = libthreadpool_nginx.so$/;"	m
+__THREADPOOL_NGINX__	threadpool_nginx.h	10;"	d
+__THREADPOOL_TOOL__	threadpool_tool.h	10;"	d
+argv	threadpool_nginx.h	/^	void		*argv;$/;"	m	struct:tp_task_s
+cond	threadpool_nginx.h	/^	pthread_cond_t		cond;	\/\/ 条件锁$/;"	m	struct:tp_threadpool_s
+curtasknum	threadpool_nginx.h	/^	unsigned int	curtasknum; \/\/ 当前任务数$/;"	m	struct:tp_task_queue_s
+handler	threadpool_nginx.h	/^	CB_FUN		handler;$/;"	m	struct:tp_task_s
+head	threadpool_nginx.h	/^	tp_task_t		*head;		\/\/ 队列头$/;"	m	struct:tp_task_queue_s
+key	threadpool_tool.h	/^static 	pthread_key_t  key;$/;"	v
+maxtasknum	threadpool_nginx.h	/^	unsigned int	maxtasknum; \/\/ 最大任务限制$/;"	m	struct:tp_task_queue_s
+maxtasknum	threadpool_nginx.h	/^	unsigned int maxtasknum;		\/\/ 最大任务限制$/;"	m	struct:tp_conf_s
+mutex	threadpool_nginx.h	/^	pthread_mutex_t		mutex;  \/\/ 互斥锁$/;"	m	struct:tp_threadpool_s
+next	threadpool_nginx.h	/^	tp_task_t	*next;		\/\/ 任务链指针 $/;"	m	struct:tp_task_s
+tail	threadpool_nginx.h	/^	tp_task_t		**tail;		\/\/ 队列尾$/;"	m	struct:tp_task_queue_s
+tasks	threadpool_nginx.h	/^	tp_task_queue_t     tasks;	\/\/ 任务队列$/;"	m	struct:tp_threadpool_s
+thread_stack_size	threadpool_nginx.h	/^	unsigned int		thread_stack_size;	\/\/ 线程堆栈大小$/;"	m	struct:tp_threadpool_s
+thread_stack_size	threadpool_nginx.h	/^	unsigned int thread_stack_size;	\/\/ 线程堆栈大小$/;"	m	struct:tp_conf_s
+threadnum	threadpool_nginx.h	/^	unsigned int		threadnum;			\/\/ 线程数限制$/;"	m	struct:tp_threadpool_s
+threadnum	threadpool_nginx.h	/^	unsigned int threadnum;			\/\/ 线程数$/;"	m	struct:tp_conf_s
+threadpool_init	threadpool_nginx.c	/^tp_threadpool_t* threadpool_init(tp_conf_t *conf)$/;"	f
+tp_conf_s	threadpool_nginx.h	/^typedef struct tp_conf_s {$/;"	s
+tp_conf_t	threadpool_nginx.h	/^}tp_conf_t;$/;"	t	typeref:struct:tp_conf_s
+tp_task_queue_s	threadpool_nginx.h	/^typedef struct tp_task_queue_s {$/;"	s
+tp_task_queue_t	threadpool_nginx.h	/^}tp_task_queue_t;$/;"	t	typeref:struct:tp_task_queue_s
+tp_task_s	threadpool_nginx.h	/^struct tp_task_s {$/;"	s
+tp_task_t	threadpool_nginx.h	/^typedef struct tp_task_s	tp_task_t;$/;"	t	typeref:struct:tp_task_s
+tp_threadpool_s	threadpool_nginx.h	/^typedef struct tp_threadpool_s {$/;"	s
+tp_threadpool_t	threadpool_nginx.h	/^}tp_threadpool_t;$/;"	t	typeref:struct:tp_threadpool_s
+z_change_maxtask_num	threadpool_tool.h	/^inline void z_change_maxtask_num(tp_threadpool_t *pool, unsigned int num)$/;"	f
+z_conf_check	threadpool_tool.h	/^int z_conf_check(zoey_threadpool_conf_t *conf)$/;"	f
+z_task_queue_init	threadpool_tool.h	/^inline void z_task_queue_init(tp_task_queue_t* task_queue)$/;"	f
+z_thread_add	threadpool_tool.h	/^int z_thread_add(tp_threadpool_t *pool)$/;"	f
+z_thread_cond_create	threadpool_tool.h	/^inline int z_thread_cond_create(pthread_cond_t *cond)$/;"	f
+z_thread_cond_destroy	threadpool_tool.h	/^inline void z_thread_cond_destroy(pthread_cond_t *cond)$/;"	f
+z_thread_key_create	threadpool_tool.h	/^inline int z_thread_key_create()$/;"	f
+z_thread_key_destroy	threadpool_tool.h	/^inline void z_thread_key_destroy()$/;"	f
+z_thread_mutex_create	threadpool_tool.h	/^int z_thread_mutex_create(pthread_mutex_t *mutex)$/;"	f
+z_thread_mutex_destroy	threadpool_tool.h	/^inline void z_thread_mutex_destroy(pthread_mutex_t *mutex)$/;"	f
+z_threadpool_create	threadpool_tool.h	/^int z_threadpool_create(tp_threadpool_t *pool)$/;"	f
+z_threadpool_cycle	threadpool_tool.h	/^void z_threadpool_cycle(void* argv)$/;"	f
+z_threadpool_exit_cb	threadpool_tool.h	/^void z_threadpool_exit_cb(void* argv)$/;"	f

@@ -1,0 +1,54 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AQBroadcast	AsyncQueue.c	/^void AQBroadcast(AsyncQueue *q)$/;"	f
+AQDestroy	AsyncQueue.c	/^void AQDestroy(AsyncQueue *q)$/;"	f
+AQLock	AsyncQueue.c	/^void AQLock(AsyncQueue *q)$/;"	f
+AQNew	AsyncQueue.c	/^AsyncQueue *AQNew(int size)$/;"	f
+AQNode	AsyncQueue.h	/^typedef struct AQNode {$/;"	s
+AQNode	AsyncQueue.h	/^} AQNode;$/;"	t	typeref:struct:AQNode
+AQPop	AsyncQueue.c	/^void AQPop(AsyncQueue *q, void *data)$/;"	f
+AQPopUnlocked	AsyncQueue.c	/^void AQPopUnlocked(AsyncQueue *q, void *data, int *shutdown)$/;"	f
+AQPush	AsyncQueue.c	/^int AQPush(AsyncQueue *q, void *data)$/;"	f
+AQPushUnlocked	AsyncQueue.c	/^int AQPushUnlocked(AsyncQueue *q, void *data)$/;"	f
+AQUnlock	AsyncQueue.c	/^void AQUnlock(AsyncQueue *q)$/;"	f
+ASYNCQUEUE_H	AsyncQueue.h	13;"	d
+AsyncQueue	AsyncQueue.h	/^typedef struct AsyncQueue {$/;"	s
+AsyncQueue	AsyncQueue.h	/^} AsyncQueue;$/;"	t	typeref:struct:AsyncQueue
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -g -shared -fPIC $/;"	m
+FIXEDTHREADPOOL_H	FixedThreadPool.h	13;"	d
+FTPoolDestroy	FixedThreadPool.c	/^void FTPoolDestroy(FixedThreadPool *pool)$/;"	f
+FTPoolNew	FixedThreadPool.c	/^FixedThreadPool *FTPoolNew(int num)$/;"	f
+FTPoolPush	FixedThreadPool.c	/^void FTPoolPush(FixedThreadPool *pool, void (*func)(void *arg), void *arg)$/;"	f
+FixedThreadPool	FixedThreadPool.h	/^typedef struct FixedThreadPool {$/;"	s
+FixedThreadPool	FixedThreadPool.h	/^} FixedThreadPool;$/;"	t	typeref:struct:FixedThreadPool
+INCPATH	Makefile	/^INCPATH = \/usr\/local\/include$/;"	m
+LFLAGS	Makefile	/^LFLAGS = -lpthread$/;"	m
+LIBPATH	Makefile	/^LIBPATH = \/usr\/local\/youhebuke$/;"	m
+OBJS	Makefile	/^OBJS = $(patsubst %.c, %.o, $(SOUCE_FILES))$/;"	m
+SOUCE_FILES	Makefile	/^SOUCE_FILES = $(wildcard *.c)$/;"	m
+TARGET	Makefile	/^TARGET = libfixedthreadpool.so$/;"	m
+Work	FixedThreadPool.c	/^typedef struct Work {$/;"	s	file:
+Work	FixedThreadPool.c	/^} Work;$/;"	t	typeref:struct:Work	file:
+arg	FixedThreadPool.c	/^    void *arg;$/;"	m	struct:Work	file:
+cond	AsyncQueue.h	/^    pthread_cond_t  cond;$/;"	m	struct:AsyncQueue
+data	AsyncQueue.h	/^    char data[0];$/;"	m	struct:AQNode
+func	FixedThreadPool.c	/^    void (*func)(void *arg);$/;"	m	struct:Work	file:
+head	AsyncQueue.h	/^    AQNode *head;$/;"	m	struct:AsyncQueue
+immediate	FixedThreadPool.h	/^    int immediate;$/;"	m	struct:FixedThreadPool
+mutex	AsyncQueue.h	/^    pthread_mutex_t mutex;$/;"	m	struct:AsyncQueue
+next	AsyncQueue.h	/^    struct AQNode *next;$/;"	m	struct:AQNode	typeref:struct:AQNode::AQNode
+num	AsyncQueue.h	/^    int     num;$/;"	m	struct:AsyncQueue
+num_idle	FixedThreadPool.h	/^    int num_idle;$/;"	m	struct:FixedThreadPool
+num_threads	FixedThreadPool.h	/^    int num_threads;$/;"	m	struct:FixedThreadPool
+process	FixedThreadPool.c	/^void* process(void *data)$/;"	f	file:
+queue	FixedThreadPool.h	/^    AsyncQueue *queue;$/;"	m	struct:FixedThreadPool
+shutdown	FixedThreadPool.h	/^    int shutdown;$/;"	m	struct:FixedThreadPool
+size	AsyncQueue.h	/^    int size;$/;"	m	struct:AsyncQueue
+tail	AsyncQueue.h	/^    AQNode *tail;$/;"	m	struct:AsyncQueue
+threads_pid	FixedThreadPool.h	/^    pthread_t *threads_pid;$/;"	m	struct:FixedThreadPool
+waiting	AsyncQueue.h	/^    int waiting;$/;"	m	struct:AsyncQueue
