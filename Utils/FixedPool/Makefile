@@ -6,8 +6,8 @@ LFLAGS = -shared -fPIC
 TARGET = libFixedPool.so
 INCFILE = FixedPool.h
 
-LIBPATH = ./
-INCPATH = ./
+LIBPATH = /usr/local/youhebuke
+INCPATH = /usr/local/include
 
 
 SOUCE_FILES = $(wildcard *.c)
@@ -20,8 +20,8 @@ $(TARGET): $(SOUCE_FILES)
 .PHONY:clean
 clean:
 	$(RM) $(TARGET) $(OBJS)
-	# $(RM) $(LIBPATH)/$(TARGET)
-	# $(RM) $(INCPATH)/$(INCFILE)
+	$(RM) $(LIBPATH)/$(TARGET)
+	$(RM) $(INCPATH)/FixedPool.h
 
 install:
 	cp -rf *.h $(INCPATH)

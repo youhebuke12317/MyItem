@@ -5,8 +5,8 @@ LFLAGS = -shared -fPIC
 
 TARGET = libPLog.so
 
-LIBPATH = /usr/lib64
-INCPATH = /usr/include
+LIBPATH = /usr/local/youhebuke
+INCPATH = /usr/local/include
 
 
 SOUCE_FILES = $(wildcard *.c)
@@ -19,8 +19,8 @@ $(TARGET): $(SOUCE_FILES)
 .PHONY:clean
 clean:
 	$(RM) $(TARGET) $(OBJS)
-	# $(RM) $(LIBPATH)/$(TARGET)
-	# $(RM) $(INCPATH)/PLog.h 
+	$(RM) $(LIBPATH)/$(TARGET)
+	$(RM) $(INCPATH)/PLog.h 
 
 install:
 	cp -rf *.h $(INCPATH)
