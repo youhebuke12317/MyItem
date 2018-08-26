@@ -1,0 +1,356 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vundle
+ set nocompatible              " be iMproved, required
+ filetype off                  " required
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+ Plugin 'VundleVim/Vundle.vim'
+ Plugin 'vim-scripts/DoxygenToolkit.vim'
+ call vundle#end()            " required
+ filetype plugin indent on    " required
+ " :PluginUpdate
+ " auto-approve removal
+ let g:DoxygenToolkit_companyName="xxxx"
+ let g:DoxygenToolkit_authorName="zhengli"
+ nmap <C-k>h :DoxAuthor<CR>
+ nmap <C-k>f :Dox<CR>
+ nmap <C-k>l :DoxLic<CR>
+ nmap <C-k>b :DoxBlock<CR>
+ """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+if(has("win32") || has("win95") || has("win64") || has("win16")) "判定当前操作系统类型
+//**************** comment start ********************
+    let g:iswindows=1
+else
+    let g:iswindows=0
+endif
+
+if has("autocmd")
+    filetype plugin indent on "根据文件进行缩进
+    augroup vimrcEx
+        au!
+        autocmd FileType text setlocal textwidth=78
+        autocmd BufReadPost *
+                    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+                    \ exe "normal! g`\"" |
+                    \ endif
+    augroup END
+endif " has("autocmd")
+
+syntax on
+filetype on
+
+filetype plugin on 
+au BufEnter *.txt setlocal ft=txt
+
+set nocompatible "不要vim模仿vi模式，建议设置，否则会有很多不兼容的问题
+set backspace=indent,eol,start whichwrap+=<,>,[,] "允许退格键的使用
+set number
+set tabstop=4
+set shiftwidth=4
+
+set autoindent 
+set cindent
+set smartindent
+
+set nowrap
+set hlsearch "高亮显示结果
+set incsearch "在输入要搜索的文字时，vim会实时匹配
+set ruler
+
+set completeopt=menu "关闭omnicppcomplete上的预览窗口
+
+colorscheme desert
+
+set fencs=chinese,GBK,UTF-8
+set fenc=UTF-8
+set enc=UTF-8
+
+let g:NERDTreeWinPos = "right"
+
+let g:Tlist_Show_One_File = 1
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_File_Fold_Auto_Close = 0
+let g:Tlist_Enable_Fold_Column = 1
+let g:Tlist_Use_Right_Window = 0
+
+set bg=dark
+set laststatus=2
+set t_Co=256   
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
+let g:DoxygenToolkit_briefTag_pre="@Discription : " 
+let g:DoxygenToolkit_paramTag_pre="@Parameter : " 
+let g:DoxygenToolkit_returnTag=   "@Return : " 
+let g:DoxygenToolkit_authorName="duxin" 
+let g:DoxygenToolkit_licenseTag="esafenet"
+
+function! UPDATE_TAGS ()
+	let _cmd_ = "ctags -R --c++-kinds=+p --fields=+iaS --extra=+q"
+	let _resp = system(_cmd_)
+	unlet _cmd_
+	unlet _resp
+
+	let _cmd_ = "find . -name \"*.h\" -o -name \"*.c\" -o -name \"*.cpp\" > cscope.files"
+	let _resp = system(_cmd_)
+	unlet _cmd_
+	unlet _resp
+
+	let _cmd_ = "cscope -bkq -i cscope.files" 
+	let _resp = system(_cmd_)
+	unlet _cmd_
+	unlet _resp
+
+	cs add cscope.out  
+endfunction
+
+map <silent> e :Tlist <cr>
+"map <silent> <f8> :Tlist <cr> :NERDTreeToggle <cr>
+map <silent> <F9> :call UPDATE_TAGS() <CR>
+nmap <C-g> :cs find c <C-R>=expand("<cword>")<CR><CR>                                                                                                        
+nmap <C-i> :cs find s <C-R>=expand("<cword>")<CR><CR>
+map <F3> :sh<CR>
+nmap F :vim <C-R>=expand("<cword>")<CR> *.* <CR>
+nmap q :qa<CR>
+nmap <F12> :set paste<CR>
+nmap <F11> :set nopaste<CR>
+nmap <F5> :make<CR>
+nmap <F4> :cw<CR>
+nmap <F8> :cn<CR>
+nmap <F7> :cp<CR>
+syntax enable
+let g:SuperTabDefaultCompletionType="context"
+set cuc
+set cul
+
+" 括号自动补全
+""inoremap ( ()<Esc>i
+""inoremap [ []<Esc>i
+""inoremap { {<CR>}<Esc>O
+""autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
+""inoremap ) <c-r>=ClosePair(')')<CR>
+""inoremap ] <c-r>=ClosePair(']')<CR>
+""inoremap } <c-r>=CloseBracket()<CR>
+""inoremap " <c-r>=QuoteDelim('"')<CR>
+""inoremap ' <c-r>=QuoteDelim("'")<CR>
+"
+"function ClosePair(char)
+" if getline('.')[col('.') - 1] == a:char
+" return "\<Right>"
+" else
+" return a:char
+" endif
+"endf
+"
+"function CloseBracket()
+" if match(getline(line('.') + 1), '\s*}') < 0
+" return "\<CR>}"
+" else
+" return "\<Esc>j0f}a"
+" endif
+"endf
+"
+"function QuoteDelim(char)
+" let line = getline('.')
+" let col = col('.')
+" if line[col - 2] == "\\"
+" return a:char
+" elseif line[col - 1] == a:char
+" return "\<Right>"
+" else
+" return a:char.a:char."\<Esc>i"
+" endif
+"endf
+"
+let mapleader = "\<Space>"
+nmap <Leader>w :w<CR>
+nmap ` <esc><c-w>ww
+
+""olorscheme evening 
+colorscheme desert
+
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+
+ set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+    set termencoding=utf-8
+	   set encoding=utf-8
+
+let g:SuperTabRetainCompletionType = 2
+let g:SuperTabDefaultCompletionType = "<C-X><C-O>" 
+
+
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+
+"autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle_zl()" 
+
+"定义函数SetTitle_zl，自动插入文件头 
+
+""func SetTitle_zl() 
+""
+""	"如果文件类型为.sh文件 
+""
+""	if &filetype == 'sh' 
+""
+""		call setline(1,"\#########################################################################") 
+""
+""		call append(line("."), "\# File Name: ".expand("%")) 
+""
+""		call append(line(".")+1, "\# Author: reus") 
+""
+""		call append(line(".")+2, "\#mail: dmarcoreus@1gmail.com") 
+""
+""		call append(line(".")+3, "\# Created Time:".strftime("%c")) 
+""
+""		call append(line(".")+4, "\#########################################################################") 
+""
+""		call append(line(".")+5, "\#!/bin/bash") 
+""
+""		call append(line(".")+6, "") 
+""	else 
+""
+""		call setline(1, "/*************************************************************************") 
+""
+""		call append(line("."), "    > File Name: ".expand("%")) 
+""
+""		call append(line(".")+1, "    > Author: reus") 
+""
+""		call append(line(".")+2, "    > Mail: dmarcoreus@gmail.com ") 
+""
+""		call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
+""
+""		call append(line(".")+4, " ************************************************************************/") 
+""
+""		call append(line(".")+5, "")
+""
+""	endif
+""
+""	if &filetype == 'cpp'
+""
+""		call append(line(".")+6, "#include <iostream>")
+""
+""		call append(line(".")+7, "using namespace std;")
+""
+""		call append(line(".")+8, "")
+""
+""	endif
+""
+""	if &filetype == 'c'
+""
+""		call append(line(".")+6, "#include <stdio.h>")
+""
+""		call append(line(".")+7, "#include <stdlib.h>")
+""
+""		call append(line(".")+8, "")
+""
+""	endif
+""
+""	"新建文件后，自动定位到文件末尾
+""	
+""	autocmd BufNewFile * normal G                     
+""
+""endfunc
+
+
+
+
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle_zl()" 
+
+"定义函数SetTitle_zl，自动插入文件头 
+
+func SetTitle_zl() 
+
+	"如果文件类型为.sh文件 
+
+	if &filetype == 'sh' 
+
+		call setline(1,"\#########################################################################") 
+
+		call append(line("."), "\# File Name: ".expand("%")) 
+
+		call append(line(".")+1, "\# Author: reus") 
+
+		call append(line(".")+2, "\#mail: dmarcoreus@1gmail.com") 
+
+		call append(line(".")+3, "\# Created Time:".strftime("%c")) 
+
+		call append(line(".")+4, "\#########################################################################") 
+
+		call append(line(".")+5, "\#!/bin/bash") 
+
+		call append(line(".")+6, "") 
+	else 
+
+		call setline(1, "/**") 
+
+		call append(line("."), 	 "* @file			".expand("%")) 
+
+		call append(line(".")+1, "* @brief		Sample project head file") 
+
+		call append(line(".")+2, "* @detils		The header file details") 
+		
+		call append(line(".")+3, "* @auther		Auther") 
+		
+		call append(line(".")+4, "* @version		1.0.0.1") 
+
+		call append(line(".")+5, "* @date			".strftime("%c")) 
+
+		call append(line(".")+6, "*/") 
+
+		call append(line(".")+7, "")
+
+	endif
+
+	if &filetype == 'cpp'
+
+		call append(line(".")+8, "#include <iostream>")
+
+		call append(line(".")+9, "using namespace std;")
+
+		call append(line(".")+10, "")
+
+	endif
+
+	if &filetype == 'c'
+
+		call append(line(".")+8, "#include <stdio.h>")
+
+		call append(line(".")+9, "#include <stdlib.h>")
+
+		call append(line(".")+10, "")
+
+	endif
+
+	"新建文件后，自动定位到文件末尾
+	
+	autocmd BufNewFile * normal G                     
+
+endfunc
+
+
+
+func SetFunctionHead()
+	call append(line(".")  , '/**')
+	call append(line(".")+1, '* @brief 			reading file')
+	call append(line(".")+2, '* @details    		The function file details')
+	call append(line(".")+3, '* @param[in]		')
+	call append(line(".")+4, '* @param[in]		')
+	call append(line(".")+5, '* @param[out]  		outdata')
+	call append(line(".")+6, '* @return	   		function return')
+	call append(line(".")+7, '* @retval	   		')
+	call append(line(".")+8, '* @retval	   		')
+	call append(line(".")+9, '*/')
+endfunc 
+
+"映射F11快捷键，生成后跳转至下行，然后使用O进入vim的插入模式
+map <F11> :call SetFunctionHead()<CR>
+
+
+
+
