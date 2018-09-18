@@ -90,3 +90,4 @@ deal_util threadpool_nginx	$OP
 deal_util threadpool_self	$OP
 deal_util FixedPool  		$OP
 deal_util PLog 				$OP
+deal_util mempool_nginx 	$OP

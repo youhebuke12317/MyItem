@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -g -shared -fPIC 
 LFLAGS = -lpthread
 
-TARGET = litmempool_nginx.so
+TARGET = libmempool_nginx.so
 
 LIBPATH = /usr/local/youhebuke
 INCPATH = /usr/local/include
@@ -14,7 +14,7 @@ OBJS = $(patsubst %.c, %.o, $(SOUCE_FILES))
 
 
 $(TARGET): $(SOUCE_FILES)
-    $(CC) $(LFLAGS) $(CFLAGS) $^ -o $@
+	$(CC) $(LFLAGS) $(CFLAGS) $^ -o $@
 
 .PHONY:clean
 clean:
