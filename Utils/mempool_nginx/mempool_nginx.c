@@ -14,17 +14,6 @@
 #include <signal.h>
 #include "mempool_nginx.h"
 
-#define MEM_POOL_ALIGNMENT      16
-
-#define mem_printf			    printf
-#define mem_free(p)				free(p)
-#define mem_realloc(p, n)		realloc(p, n)
-#define mem_calloc(count, n)	calloc(count, n)
-#define mem_memset(buf, c, n)	(void) memset(buf, c, n)
-#define mem_memzero(buf, n)		(void) memset(buf, 0, n)
-
-#define MEM_PAGESIZE             getpagesize()
-#define MEM_MAX_ALLOC_FROM_POOL  (MEM_PAGESIZE - 1)
 
 static void * mem_palloc_block(mem_pool_t *pool, size_t size);
 static void * mem_palloc_large(mem_pool_t *pool, size_t size);
@@ -130,8 +119,10 @@ void mem_reset_pool(mem_pool_t *pool) {
 
 void * mem_palloc(mem_pool_t *pool, size_t size) {
 	if (size <= pool->max) {
+		mem_printf("entry mem_palloc_small function\n");
 		return mem_palloc_small(pool, size);
 	}
+	mem_printf("entry mem_palloc_large function\n");
 	return mem_palloc_large(pool, size);
 }
 
@@ -188,6 +179,8 @@ static void * mem_palloc_block(mem_pool_t *pool, size_t size) {
 	unsigned char	*m;
 	size_t			psize;
 	mem_pool_t		*p, *new;
+
+	mem_printf("entry mem_palloc_block function\n");
 
 	psize = (size_t) (pool->d.end - (unsigned char *) pool);
 

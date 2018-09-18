@@ -14,6 +14,18 @@ typedef struct mem_chain_s          mem_chain_t;
 typedef struct mem_pool_large_s     mem_pool_large_t;  
 typedef struct mem_pool_cleanup_s   mem_pool_cleanup_t;  
 
+#define MEM_POOL_ALIGNMENT      16
+
+#define mem_printf			    printf
+#define mem_free(p)				free(p)
+#define mem_realloc(p, n)		realloc(p, n)
+#define mem_calloc(count, n)	calloc(count, n)
+#define mem_memset(buf, c, n)	(void) memset(buf, c, n)
+#define mem_memzero(buf, n)		(void) memset(buf, 0, n)
+
+#define MEM_PAGESIZE             getpagesize()
+#define MEM_MAX_ALLOC_FROM_POOL  (MEM_PAGESIZE - 1)
+
 typedef void (*mem_pool_cleanup_pt)(void *data);    /* cleanup的callback类型 */
 
 struct mem_pool_cleanup_s{  
@@ -43,6 +55,13 @@ struct mem_pool_s {
 	void                 *log;          /* 内存分配相关的日志信息 */
 };
 
+mem_pool_t * mem_create_pool(size_t size, void *log);
+void mem_destroy_pool(mem_pool_t *pool);
+void mem_reset_pool(mem_pool_t *pool);
+void * mem_palloc(mem_pool_t *pool, size_t size);
+void * mem_pcalloc(mem_pool_t *pool, size_t size);
+int mem_free_large(mem_pool_t *pool, void *p);
+mem_pool_cleanup_t * mem_pool_cleanup_add(mem_pool_t *p, size_t size);
 
 #endif
 
