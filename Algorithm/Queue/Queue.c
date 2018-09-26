@@ -9,49 +9,28 @@
 #include <string.h>
 #include <stdlib.h>
 #include <syslog.h>
+#include "Queue.h"
 
-#include "queue.h"
-
-// 需要保证QUEUE_SIZE是2的次幂
-#define QUEUE_MASK											\
-	(QUEUE_SIZE - 1)
-
-#define QUEUE_FULL(queue)									\
-	((((queue) -> tail + 1) & QUEUE_MASK) == (queue) -> head)
-
-#define QUEUE_EMPTY(queue)									\
-	((queue) -> head == (queue) -> tail)
-
-#define INC_HEAD(queue)										\
-	(queue) -> head = ((queue) -> head + 1) & QUEUE_MASK
-
-#define INC_TAIL(queue)										\
-	(queue) -> tail = ((queue) -> tail + 1) & QUEUE_MASK
-
-#define QUEUE_INTERVAL(queue)								\
-	((queue)->tail - (queue)->head)
-
-#define QUEUE_ITEM_NUM(queue)								\
-	((queue)->tail>=(queue)->head)? QUEUE_INTERVAL(queue):(QUEUE_SIZE+QUEUE_INTERVAL(queue))  
-
-#define INC_HEAD_UNLOCK(queue)										\
-	(queue) -> head = ((queue) -> head + 1) & QUEUE_MASK			\
-
-#define INC_TAIL_UNLOCK(queue)										\
-	(queue) -> tail = ((queue) -> tail + 1) & QUEUE_MASK
-
-typedef struct LOG_QUEUE {
+struct LOG_QUEUE_S {
 	int				head;
 	int				tail;
 	void			*data[QUEUE_SIZE];
-	pthread_mutex_t	mutex;		/* 队列锁 */
-}LOG_QUEUE; 
+}; 
 
+// 需要保证QUEUE_SIZE是2的次幂
+#define QUEUE_MASK					(QUEUE_SIZE - 1)
 
-static void inc_read_ptr(LOG_QUEUE *queue);
-static void inc_write_ptr(LOG_QUEUE *queue);
-static void *get_uint_for_read(LOG_QUEUE *queue);
-static void *get_uint_for_write(LOG_QUEUE *queue);
+#define QUEUE_FULL(queue)			((((queue) -> tail + 1) & QUEUE_MASK) == (queue) -> head)
+
+#define QUEUE_EMPTY(queue)			((queue) -> head == (queue) -> tail)
+
+#define INC_HEAD(queue)				(queue) -> head = ((queue) -> head + 1) & QUEUE_MASK
+
+#define INC_TAIL(queue)				(queue) -> tail = ((queue) -> tail + 1) & QUEUE_MASK
+
+#define QUEUE_INTERVAL(queue)		((queue)->tail - (queue)->head)
+
+#define QUEUE_ITEM_NUM(queue)		((queue)->tail>=(queue)->head)? QUEUE_INTERVAL(queue):(QUEUE_SIZE+QUEUE_INTERVAL(queue))  
 
 /**
  * @brief 初始化环形队列
@@ -67,9 +46,7 @@ int init_log_queue(LOG_QUEUE *queue, int size)
 	int i;
 
     ptr = malloc(size * QUEUE_SIZE);
-	if(ptr == NULL) {
-		return -1;
-	}
+	if(ptr == NULL) return -1;
     memset(ptr, 0, size * QUEUE_SIZE);
 	
 	for(i = 0; i < QUEUE_SIZE; ++i) {
@@ -79,71 +56,7 @@ int init_log_queue(LOG_QUEUE *queue, int size)
 	queue -> head  = 0;
 	queue -> tail  = 0;
 	
-	int ret = pthread_mutex_init(&(queue -> mutex), NULL);
-	if (ret != 0) {
-		printf("init queue: queue mutex init error\n"); 
-		return -1;
-	}  
-	
 	return 0;
-}
-
-
-/**
- * @brief 入队
- *
- * @param queue	队列的管理结构指针
- * @param err	返回节点为空的出错次数
- *
- * @return 成功返回队列节点指针 失败返回NULL
- */
-void *EnQueue(LOG_QUEUE *queue, int err)
-{
-	pthread_mutex_lock(&queue -> mutex);
-
-	int 	index = 0;
-	void 	**ptr;
-
-	for (/* NULL */; index < err; index++) {
-		ptr = get_uint_for_write(queue);
-		if (ptr != NULL || *ptr != NULL) {
-			inc_write_ptr(queue);
-			break;
-		}
-	}
-
-	pthread_mutex_unlock(&queue -> mutex);
-
-	return ptr;
-}
-
-
-/**
- * @brief 出队
- *
- * @param queue 队列的管理结构指针
- * @param err   返回节点为空的出错次数
- *
- * @return  成功返回队列节点指 失败返回NULL
- */
-void *DeQueue(LOG_QUEUE *queue, int err)
-{
-	pthread_mutex_lock(&queue -> mutex);
-
-	int 	index = 0;
-	void 	*ptr;
-
-	for (/* NULL */; index < err; index++) {
-		ptr = get_uint_for_read(queue);
-		if (ptr != NULL) {
-			inc_read_ptr(queue);
-			break;
-		}
-	}
-
-	pthread_mutex_unlock(&queue -> mutex);
-
-	return ptr;
 }
 
 
@@ -151,10 +64,8 @@ void *DeQueue(LOG_QUEUE *queue, int err)
 /**
  *	获取读单元地址
  */
-static void *get_uint_for_read(LOG_QUEUE *queue)
+void *get_uint_for_read(LOG_QUEUE *queue)
 {
-	if (queue == NULL) 	return NULL;
-
 	if(QUEUE_EMPTY(queue))
 		return NULL;
 	
@@ -164,14 +75,10 @@ static void *get_uint_for_read(LOG_QUEUE *queue)
 /**
  *	获取写单元地址
  */
-static void *get_uint_for_write(LOG_QUEUE *queue)
+void *get_uint_for_write(LOG_QUEUE *queue)
 {
-	if (queue == NULL) 	return NULL;
-
-	if(QUEUE_FULL(queue)) {
-        printf("QUEUE_FULL\n");
+	if(QUEUE_FULL(queue)) 
 		return NULL;
-    }
 
 	return (queue -> data[queue -> tail]);
 }
@@ -179,10 +86,8 @@ static void *get_uint_for_write(LOG_QUEUE *queue)
 /**
  *	后移写指针
  */
-static void inc_write_ptr(LOG_QUEUE *queue)
+void inc_write_ptr(LOG_QUEUE *queue)
 {
-	if (queue == NULL) 	return ;
-
 	INC_TAIL(queue);
 
 	return ;
@@ -191,13 +96,64 @@ static void inc_write_ptr(LOG_QUEUE *queue)
 /**
  *	后移读指针
  */
-static void inc_read_ptr(LOG_QUEUE *queue)
+void inc_read_ptr(LOG_QUEUE *queue) 
 {
-	if (queue == NULL) 	return;
-
 	INC_HEAD(queue);
 
 	return ;
 }
 
 
+#if 1
+
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int N;
+pthread_t cid;
+static LOG_QUEUE queue;
+
+void output(int a) {
+	printf("%d\n", a);
+}
+
+
+void *consumer() {
+	while (1) {
+		int *tmp = (int *)get_uint_for_read(&queue);
+		if (tmp == NULL) { 
+			usleep(10); 
+			continue;
+		}
+		inc_read_ptr(&queue);
+		output(*tmp);
+	}	
+}
+
+void *producer() {
+	for (int i = 0; i < N; i++) {
+		int *tmp = NULL;
+		while ((tmp = (int *)get_uint_for_write(&queue)) == NULL) /* void */;
+		*tmp = i;
+		inc_write_ptr(&queue);
+	}
+}
+
+int main() {
+	printf("please input queue element num: ");
+	scanf("%d", &N);
+
+	init_log_queue(&queue, sizeof(int));
+
+	pthread_create(&cid, NULL, consumer, NULL);
+
+	producer();
+
+	while (1) sleep(0x7FFFFFFF);
+
+	return 0;
+}
+
+
+#endif

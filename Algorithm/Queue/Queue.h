@@ -10,42 +10,28 @@
 #ifndef __QUQUQ_H__
 #define __QUQUQ_H__
 
+typedef struct LOG_QUEUE_S		LOG_QUEUE;
+typedef struct QUEUE_HEAD_S		QUEUE_HEAD;
 
-// #define QUEUE_SIZE 1024
-
-struct LOG_QUEUE;
-
-/**
- * @brief 初始化环形队列
- *
- * @param queue	队列首地址
- * @param size	队列中元素的大小
- * @param qnum	环形队列容纳元素个数
- *
- * @return	成功返回0 失败返回-1
- */
-int init_log_queue(LOG_QUEUE *queue, int size, size_t qnum);
+struct QUEUE_HEAD_S {
+	LOG_QUEUE queue;
+}
 
 
-/**
- * @brief 入队
- *
- * @param queue	队列的管理结构指针
- * @param err	返回节点为空的出错次数
- *
- * @return 成功返回队列节点指针 失败返回NULL
- */
-void *EnQueue(LOG_QUEUE *queue, int err);
+/* 队列容纳元素个数 */ 
+#define QUEUE_SIZE 1024
 
-/**
- * @brief 出队
- *
- * @param queue 队列的管理结构指针
- * @param err   返回节点为空的出错次数
- *
- * @return  成功返回队列节点指 失败返回NULL
- */
-void *DeQueue(LOG_QUEUE *queue, int err);
+// size: 队列元素大小
+int init_log_queue(LOG_QUEUE *queue, int size);
+
+void inc_read_ptr(LOG_QUEUE *queue);
+
+void inc_write_ptr(LOG_QUEUE *queue);
+
+void *get_uint_for_read(LOG_QUEUE *queue);
+
+void *get_uint_for_write(LOG_QUEUE *queue);
+
 
 
 
